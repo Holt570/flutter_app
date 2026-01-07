@@ -45,6 +45,11 @@ def fetch_user_by_id(user_id: int) -> Optional[Dict[str, Any]]:
     return row_to_dict(row) if row else None
 
 
+@app.route("/", methods=["GET"])
+def homePage():
+    return "Welcome to the Warehouse Maintenance API!", 200
+
+
 @app.route("/api/v1/users", methods=["GET"])
 def list_users():
     with get_connection() as connection:
