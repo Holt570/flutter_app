@@ -35,10 +35,3 @@ CREATE TABLE IF NOT EXISTS maintenance_log_media (
         OR (file_path IS NULL AND media_blob IS NOT NULL)
     )
 );
-
-INSERT INTO users (username, password_hash, role)
-VALUES ('jay', 'demo_hash_123', 'admin');
-
-
-INSERT INTO maintenance_logs (title, description, priority, status, user_id)
-VALUES ('Leaking pipe', 'Pipe leaking under sink in Bay 2', 'high', 'open', last_insert_rowid());
