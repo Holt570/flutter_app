@@ -4,6 +4,7 @@ import '../jobList.dart';
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key, required this.title});
 
+  
   final String title;
 
   @override
@@ -11,11 +12,24 @@ class LoginPage extends StatefulWidget {
 }
 
 class LoginPageState extends State<LoginPage> {
+  final formKey = GlobalKey<FormState>();
+  final usernameController = TextEditingController();
+  final passwordController = TextEditingController();
 
-  void _validateLogin() {
-    setState(() {
+  Future<void> _validateLogin() async {
+    final auth = context.read<AuthProvider>();
+    final success = await auth.login(
+      usernameController.text,
+      passwordController.text,
+    );
 
-    });
+        if (!success) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(auth.error ?? 'Login failed'),
+        ),
+      );
+    }
   }
 
   @override
