@@ -1,0 +1,114 @@
+import 'package:flutter/material.dart';
+import '../jobList.dart';
+
+class AddJobPage extends StatefulWidget {
+  const AddJobPage({super.key, required this.title});
+
+  
+  final String title;
+
+  @override
+  State<AddJobPage> createState() => AddJobPageState();
+}
+
+class AddJobPageState extends State<AddJobPage> {
+
+  final jobNameController = TextEditingController();
+  final commentController = TextEditingController();
+
+  Future<void> _createNewJob() async {
+    final auth = context.read<AuthProvider>();
+    final success = await auth.login(
+      jobNameController.text,
+      commentController.text,
+    );
+
+        if (!success) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(auth.error ?? 'Login failed'),
+        ),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(widget.title),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: .start,
+          children: [
+            Text(
+              "Add New Job",
+              style: TextStyle(fontSize:30),
+            ),
+
+            SizedBox(height: 30,),
+
+            Container(
+              width: screenWidth * 0.5,
+              decoration: BoxDecoration(
+                color: Colors.white,
+              ),
+              child: TextFormField(
+                controller: jobNameController,
+                decoration: InputDecoration(
+                  labelText: "Job name",
+                  labelStyle: TextStyle(color: Colors.black45),
+                ),
+                validator: (value){
+                  if (value == null){
+                    return "Missing job name";
+                  }
+                  return null;
+                },
+              ),
+            ),
+
+            SizedBox(height: 15,),
+
+            Container(
+              width: screenWidth * 0.5,
+              decoration: BoxDecoration(
+                color: Colors.white,
+              ),
+              child: TextFormField(
+                controller: commentController,
+                decoration: InputDecoration(
+                  labelText: "Comment",
+                  labelStyle: TextStyle(color: Colors.black45),
+                ),
+                validator: (value){
+                  if (value == null){
+                    return "Missing comment";
+                  }
+                  return null;
+                },
+              ),
+            ),
+
+            SizedBox(height: 30,),
+
+            SizedBox(
+              width: screenWidth * 0.5,
+              child: ElevatedButton(
+                onPressed: _createNewJob,
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: const Color.fromARGB(255, 194, 29, 17),
+                ), child: Text("Create Job")),
+            ),
+            
+            
+          ],
+        ),
+      ),
+    );
+  }
+}
