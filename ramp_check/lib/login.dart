@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../jobList.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key, required this.title});
@@ -10,12 +11,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class LoginPageState extends State<LoginPage> {
-  int _counter = 0;
 
-  void _incrementCounter() {
+  void _validateLogin() {
     setState(() {
 
-      _counter++;
     });
   }
 
@@ -72,7 +71,7 @@ class LoginPageState extends State<LoginPage> {
             SizedBox(
               width: screenWidth * 0.5,
               child: ElevatedButton(
-                onPressed: _incrementCounter,
+                onPressed: _validateLogin,
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white,
                   backgroundColor: const Color.fromARGB(255, 194, 29, 17),
