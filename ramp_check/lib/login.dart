@@ -42,11 +42,18 @@ class LoginPageState extends State<LoginPage> {
               decoration: BoxDecoration(
                 color: Colors.white,
               ),
-              child: TextField(
+              child: TextFormField(
+                controller: passwordController,
                 decoration: InputDecoration(
                   labelText: "Username",
                   labelStyle: TextStyle(color: Colors.black45),
                 ),
+                validator: (value){
+                  if (value != "TestUser"){
+                    return "Invalid username";
+                  }
+                  return null;
+                },
               ),
             ),
 
@@ -57,12 +64,19 @@ class LoginPageState extends State<LoginPage> {
               decoration: BoxDecoration(
                 color: Colors.white,
               ),
-              child: TextField(
+              child: TextFormField(
+                controller: passwordController,
                 obscureText: true,
                 decoration: InputDecoration(
                   labelText: "Password",
                   labelStyle: TextStyle(color: Colors.black45),
                 ),
+                validator: (value){
+                  if (value != "TestPass1"){
+                    return "Incorrect password";
+                  }
+                  return null;
+                },
               ),
             ),
 
