@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import '../jobList.dart';
 
@@ -13,8 +15,18 @@ class AddJobPage extends StatefulWidget {
 
 class AddJobPageState extends State<AddJobPage> {
 
+  final List<String> statusOptions = [
+    'Created',
+    'In Progress',
+    'Complete',
+    'Archived',
+  ];
+
+  String selectedStatus = 'Created';
+
   final jobNameController = TextEditingController();
   final commentController = TextEditingController();
+
 
   Future<void> _createNewJob() async {
     final auth = context.read<AuthProvider>();
@@ -92,6 +104,23 @@ class AddJobPageState extends State<AddJobPage> {
                 },
               ),
             ),
+
+            DropdownButton<String>(
+              value: selectedStatus, 
+              icon: const Icon(Icons.arrow_drop_down),
+              style: const TextStyle(color: Colors.black45),
+          onChanged: (String? newValue) {
+            setState(() {
+              selectedStatus = newValue!;
+            });
+          },
+          items: statusOptions.map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          }).toList(),
+              ),
 
             SizedBox(height: 30,),
 
