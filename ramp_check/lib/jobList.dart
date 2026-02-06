@@ -9,16 +9,16 @@ class JobListPage extends StatefulWidget {
   final String title;
 
   @override
-  State<JobListPage> createState() => AddJobPageState();
+  State<JobListPage> createState() => JobListPageState();
 }
 
-class AddJobPageState extends State<JobListPage> {
+class JobListPageState extends State<JobListPage> {
   List<Map<String, dynamic>> jobs = [];
 
   @override
   void initState(){
     super.initState();
-
+    _loadLogs();
   }
 
   void _loadLogs() async{

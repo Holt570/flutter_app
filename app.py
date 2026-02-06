@@ -81,7 +81,7 @@ def create_log():
             """
             INSERT INTO jobs
                 (title, comment, status, created_at, updated_at)
-            VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+            VALUES (?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
             """,
             (title, comment, status),
         )
