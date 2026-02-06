@@ -2,11 +2,11 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import '../jobList.dart';
+import '../dbFunctions.dart';
 
 class AddJobPage extends StatefulWidget {
   const AddJobPage({super.key, required this.title});
 
-  
   final String title;
 
   @override
@@ -27,18 +27,24 @@ class AddJobPageState extends State<AddJobPage> {
   final jobNameController = TextEditingController();
   final commentController = TextEditingController();
 
-
   Future<void> _createNewJob() async {
-    final auth = context.read<AuthProvider>();
-    final success = await auth.login(
-      jobNameController.text,
-      commentController.text,
-    );
+      String newName = jobNameController.text;
+      String newComment = commentController.text;
+        if (newName != "" && newComment != "") {
 
-        if (!success) {
+          final log = await WarehouseApi.createLog(
+            title: newName,
+            comment: newComment,
+            status: selectedStatus,
+          );
+
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => JobListPage(title: "Job List")));
+        }
+
+        else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(auth.error ?? 'Login failed'),
+          content: Text('Failed to create new job'),
         ),
       );
     }
@@ -127,7 +133,7 @@ class AddJobPageState extends State<AddJobPage> {
             SizedBox(
               width: screenWidth * 0.5,
               child: ElevatedButton(
-                onPressed: _createNewJob,
+                onPressed: () => _createNewJob,
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white,
                   backgroundColor: const Color.fromARGB(255, 194, 29, 17),
