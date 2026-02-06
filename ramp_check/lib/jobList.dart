@@ -42,11 +42,15 @@ class AddJobPageState extends State<JobListPage> {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: .center,
+          mainAxisAlignment: .start,
           children: [
+            SizedBox(height: 30,),
+
            Row(
+            mainAxisAlignment: .center,
             children: [
-              DataTable(columns: [DataColumn(label: Text("Job Name")), 
+              DataTable(
+                columns: [DataColumn(label: Text("Job Name")), 
                                   DataColumn(label: Text("Comment")), 
                                   DataColumn(label: Text("Status"))
                                   ], 
@@ -60,6 +64,7 @@ class AddJobPageState extends State<JobListPage> {
                         }).toList())
            ],),
            Row(
+            mainAxisAlignment: .center,
             children: [
               ElevatedButton(
                 onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddJobPage(title: "Create Job"))),
