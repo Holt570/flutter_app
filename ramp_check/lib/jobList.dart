@@ -1,27 +1,40 @@
 import 'package:flutter/material.dart';
 import '../addJob.dart';
 import '../editJob.dart';
+import '../dbFunctions.dart';
 
-class AddJobPage extends StatefulWidget {
-  const AddJobPage({super.key, required this.title});
+class JobListPage extends StatefulWidget {
+  const JobListPage({super.key, required this.title});
 
   final String title;
 
   @override
-  State<AddJobPage> createState() => AddJobPageState();
+  State<JobListPage> createState() => AddJobPageState();
 }
 
-class AddJobPageState extends State<AddJobPage> {
+class AddJobPageState extends State<JobListPage> {
+  List<Map<String, dynamic>> jobs = [];
 
-  void _validateLogin() {
-    setState(() {
-      
-    });
+  @override
+  void initState(){
+    super.initState();
+
+  }
+
+  void _loadLogs() async{
+    final data = await WarehouseApi.getJobs();
+
+    setState(
+      () => jobs = data
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
+
+    
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -31,55 +44,32 @@ class AddJobPageState extends State<AddJobPage> {
         child: Column(
           mainAxisAlignment: .center,
           children: [
-            Text(
-              "RampCheck v0.1",
-              style: TextStyle(fontSize:30),
-            ),
-
-            SizedBox(height: 30,),
-
-            Container(
-              width: screenWidth * 0.5,
-              decoration: BoxDecoration(
-                color: Colors.white,
-              ),
-              child: TextField(
-                decoration: InputDecoration(
-                  labelText: "Username",
-                  labelStyle: TextStyle(color: Colors.black45),
-                ),
-              ),
-            ),
-
-            SizedBox(height: 15,),
-
-            Container(
-              width: screenWidth * 0.5,
-              decoration: BoxDecoration(
-                color: Colors.white,
-              ),
-              child: TextField(
-                obscureText: true,
-                decoration: InputDecoration(
-                  labelText: "Password",
-                  labelStyle: TextStyle(color: Colors.black45),
-                ),
-              ),
-            ),
-
-            SizedBox(height: 30,),
-
-            SizedBox(
-              width: screenWidth * 0.5,
-              child: ElevatedButton(
-                onPressed: _validateLogin,
+           Row(
+            children: [
+              DataTable(columns: [DataColumn(label: Text("Job Name")), 
+                                  DataColumn(label: Text("Comment")), 
+                                  DataColumn(label: Text("Status"))
+                                  ], 
+                        rows: jobs.map((job){
+                          return DataRow(cells: 
+                          [
+                            DataCell(Text(job["title"])),
+                            DataCell(Text(job["comment"])),
+                            DataCell(Text(job["status"])),
+                          ],);
+                        }).toList())
+           ],),
+           Row(
+            children: [
+              ElevatedButton(
+                onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddJobPage(title: "Create Job"))),
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white,
                   backgroundColor: const Color.fromARGB(255, 194, 29, 17),
-                ), child: Text("Login")),
+                ), child: Text("Create New Job")
+                ),
+            ],
             ),
-            
-            
           ],
         ),
       ),
