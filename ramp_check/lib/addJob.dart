@@ -39,6 +39,7 @@ class AddJobPageState extends State<AddJobPage> {
           );
 
           Navigator.of(context).push(MaterialPageRoute(builder: (context) => JobListPage(title: "Job List")));
+          return;
         }
 
         else {
@@ -47,7 +48,9 @@ class AddJobPageState extends State<AddJobPage> {
           content: Text('Failed to create new job'),
         ),
       );
+      return;
     }
+
   }
 
   @override
@@ -111,6 +114,8 @@ class AddJobPageState extends State<AddJobPage> {
               ),
             ),
 
+            SizedBox(height: 15,),
+
             DropdownButton<String>(
               value: selectedStatus, 
               icon: const Icon(Icons.arrow_drop_down),
@@ -133,7 +138,7 @@ class AddJobPageState extends State<AddJobPage> {
             SizedBox(
               width: screenWidth * 0.5,
               child: ElevatedButton(
-                onPressed: () => _createNewJob,
+                onPressed: _createNewJob,
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white,
                   backgroundColor: const Color.fromARGB(255, 194, 29, 17),
